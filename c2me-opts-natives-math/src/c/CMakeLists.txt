@@ -7,7 +7,7 @@ project(c2me-opts-natives-math C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_COMPILER clang)
 
-SET(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 -g")
+SET(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 -g -mllvm -polly -flto")
 
 set(CMAKE_C_STANDARD_LIBRARIES "")
 set(CMAKE_CXX_STANDARD_LIBRARIES "")
