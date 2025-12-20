@@ -273,24 +273,38 @@ dependencies {
 }
 
 String getVersionSuffix() {
-    def stdout = providers.exec {
-        commandLine 'git', 'describe', '--tags', '--dirty', '--broken'
-    }.standardOutput.asText.get()
-    stdout = stdout.toString().strip()
-    def suffix = ""
-    if (stdout.endsWith("-dirty")) {
-        stdout = stdout.substring(0, stdout.length() - "-dirty".length())
-        suffix = "-dirty"
+    try {
+        def process = ['git', 'describe', '--tags', '--dirty', '--broken'].execute()
+        process.waitFor()
+        
+        if (process.exitValue() != 0) {
+            // Git 命令失败，返回默认值
+            return "0"
+        }
+        
+        def stdout = process.text.trim()
+        
+        // ... 原有的处理逻辑 ...
+        def suffix = ""
+        if (stdout.endsWith("-dirty")) {
+            stdout = stdout.substring(0, stdout.length() - "-dirty".length())
+            suffix = "-dirty"
+        }
+        if (stdout.endsWith("-broken")) {
+            stdout = stdout.substring(0, stdout.length() - "-broken".length())
+            suffix = "-broken"
+        }
+        if (stdout.indexOf('-') < 0) {
+            return "0" + suffix
+        }
+        def split = stdout.split('-')
+        return split[split.length - 2] + suffix
+        
+    } catch (IOException e) {
+        // Git 命令执行失败（可能没有安装 git）
+        println "Warning: Git not available, using default version"
+        return "0"
     }
-    if (stdout.endsWith("-broken")) {
-        stdout = stdout.substring(0, stdout.length() - "-broken".length())
-        suffix = "-broken"
-    }
-    if (stdout.indexOf('-') < 0) {
-        return "0" + suffix;
-    }
-    def split = stdout.split('-')
-    return split[split.length - 2] + suffix
 }
 
 compileJmhJava {
