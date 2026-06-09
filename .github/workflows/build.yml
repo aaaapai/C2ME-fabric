@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@main
       with:
-        fetch-depth: 0
+        fetch-depth: 1
         submodules: true
 
     - name: Set up JDK 25
