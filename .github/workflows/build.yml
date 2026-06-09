@@ -19,12 +19,12 @@ jobs:
         distribution: 'temurin'
         java-version: 25
 
-    - name: Install LLVM
-      uses: KyleMayes/install-llvm-action@master
-      with:
-        version: "22.1.7"
-        force-url: "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/LLVM-22.1.7-Linux-X64.tar.xz"
-        directory: ${{ runner.temp }}/llvm
+    #- name: Install LLVM
+    #  uses: KyleMayes/install-llvm-action@master
+     # with:
+      #  version: "22.1.7"
+       # force-url: "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/LLVM-22.1.7-Linux-X64.tar.xz"
+        #directory: ${{ runner.temp }}/llvm
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@main
