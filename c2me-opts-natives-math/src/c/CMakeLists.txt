@@ -28,5 +28,5 @@ execute_process(COMMAND llvm-config --prefix OUTPUT_VARIABLE LLVM_PREFIX OUTPUT_
 
 target_include_directories(c2me-opts-natives-math PRIVATE includes/)
 target_compile_options(c2me-opts-natives-math PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wall -Wextra -Wpedantic -ffreestanding -ffile-prefix-map=${CMAKE_SOURCE_DIR}=. -fdebug-compilation-dir=. -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=. -fdebug-prefix-map=${LLVM_PREFIX}=.../llvm-prefix -fno-math-errno -mprefer-vector-width=512 -ffp-contract=off -mno-stack-arg-probe -fsave-optimization-record "SHELL:-mllvm -extra-vectorizer-passes" "SHELL:-mllvm -slp-vectorize-hor-store" "SHELL:-mllvm -slp-min-tree-size=2" "SHELL:-mllvm -slp-min-reg-size=64" "SHELL:-mllvm -slp-threshold=-1" "SHELL:-mllvm -enable-epilogue-vectorization">)
-target_link_options(c2me-opts-natives-math PRIVATE -v -nostdlib -fuse-ld=lld -ffile-prefix-map=${CMAKE_SOURCE_DIR}=. -fdebug-compilation-dir=. -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=. -fdebug-prefix-map=${LLVM_PREFIX}=.../llvm-prefix)
+target_link_options(c2me-opts-natives-math PRIVATE -v -fuse-ld=lld -ffile-prefix-map=${CMAKE_SOURCE_DIR}=. -fdebug-compilation-dir=. -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=. -fdebug-prefix-map=${LLVM_PREFIX}=.../llvm-prefix)
 
