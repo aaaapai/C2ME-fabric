@@ -1,5 +1,6 @@
 set(CMAKE_SYSTEM_NAME Android)
 set(CMAKE_SYSTEM_PROCESSOR arm64)
+set(ANDROID_ABI arm64-v8a)
 
 set(triple aarch64-unknown-linux-android)
 
