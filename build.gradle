@@ -308,25 +308,31 @@ dependencies {
 }
 
 String getVersionSuffix() {
-    def stdout = providers.exec {
-        commandLine 'git', 'describe', '--tags', '--dirty', '--broken'
-    }.standardOutput.asText.get()
-    stdout = stdout.toString().strip()
-    stdout = stdout.substring(stdout.indexOf('-') + 1) // strip the existing dash
-    def suffix = ""
-    if (stdout.endsWith("-dirty")) {
-        stdout = stdout.substring(0, stdout.length() - "-dirty".length())
-        suffix = "-dirty"
+    try {
+        def stdout = providers.exec {
+            commandLine 'git', 'describe', '--tags', '--dirty', '--broken'
+        }.standardOutput.asText.get()
+        stdout = stdout.toString().strip()
+        stdout = stdout.substring(stdout.indexOf('-') + 1) // strip the existing dash
+        def suffix = ""
+        if (stdout.endsWith("-dirty")) {
+            stdout = stdout.substring(0, stdout.length() - "-dirty".length())
+            suffix = "-dirty"
+        }
+        if (stdout.endsWith("-broken")) {
+            stdout = stdout.substring(0, stdout.length() - "-broken".length())
+            suffix = "-broken"
+        }
+        if (stdout.indexOf('-') < 0) {
+            return "0" + suffix
+        }
+        def split = stdout.split('-')
+        return split[split.length - 2] + suffix
+    } catch (Exception e) {
+        // 当 git 命令失败时（比如浅克隆缺少 tags），返回一个安全的默认版本后缀
+        logger.warn("git describe failed: ${e.message}. Using default suffix '0'")
+        return "0"
     }
-    if (stdout.endsWith("-broken")) {
-        stdout = stdout.substring(0, stdout.length() - "-broken".length())
-        suffix = "-broken"
-    }
-    if (stdout.indexOf('-') < 0) {
-        return "0" + suffix;
-    }
-    def split = stdout.split('-')
-    return split[split.length - 2] + suffix
 }
 
 jmhJar {
