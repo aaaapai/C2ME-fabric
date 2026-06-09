@@ -175,7 +175,7 @@ public class OpenCLDeviceLocator {
                 }
                 if (!deviceCaps.cl_khr_fp64) {
                     LOGGER.warn("OpenCL device ({}) version ({}) does not support cl_khr_fp64", deviceName, deviceVersion);
-                    continue;
+                    //continue;
                 }
 
                 UUID deviceUUID;
