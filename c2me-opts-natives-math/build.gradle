@@ -20,17 +20,18 @@ def addTarget(String target, String outputName, String packagedName) {
     }
 }
 
-addTarget("linux-x86_64", "libc2me-opts-natives-math.so")
+//addTarget("linux-x86_64", "libc2me-opts-natives-math.so")
 //addTarget("linux-aarch_64", "libc2me-opts-natives-math.so")
 //addTarget("darwin-x86_64", "libc2me-opts-natives-math.dylib")
-addTarget("windows-x86_64", "libc2me-opts-natives-math.dll", "c2me-opts-natives-math.dll")
+//addTarget("windows-x86_64", "libc2me-opts-natives-math.dll", "c2me-opts-natives-math.dll")
+addTarget("android-aarch_64", "libc2me-opts-natives-math.so")
 
 cmake {
     targets {
         native_lib {
             cmakeLists = file('src/c/CMakeLists.txt')
             targetMachines.addAll(machines.customMachines)
-            cmakeArgs = [ "-DCMAKE_BUILD_TYPE=RelWithDebInfo", "-DCMAKE_VERBOSE_MAKEFILE=true" ]
+            cmakeArgs = [ "-DCMAKE_BUILD_TYPE=Release", "-DCMAKE_VERBOSE_MAKEFILE=true", "-DANDROID_PLATFORM=26", "-DCMAKE_ANDROID_STL_TYPE=c++_static", "-DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_LATEST_HOME/build/cmake/android.toolchain.cmake" ]
         }
     }
 }
