@@ -50,7 +50,7 @@ target_compile_options(c2me-opts-natives-math PRIVATE
 )
 
 target_link_options(c2me-opts-natives-math PRIVATE 
-    -v -fuse-ld=lld 
+    -v 
     -ffile-prefix-map=${CMAKE_SOURCE_DIR}=. 
     -fdebug-compilation-dir=. 
     -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=. 
@@ -58,3 +58,4 @@ target_link_options(c2me-opts-natives-math PRIVATE
     # 显式链接 libc（提供 __stack_chk_fail 等符号）
     -lc
 )
+# -fuse-ld=lld
